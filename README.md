@@ -29,3 +29,8 @@ individual income to be inferred, should another query is allowed to exclude a c
 from the data base.
 There are other popular privacy techniques that are often discussed and employed in financial intelligence, 
 include hashing techniques, federated learning and so on
+
+# Short Term End of T3 
+By the end of the trimester we would like to write a report exploring prominent privacy technologies (being Secure multiparty computation (SMC or MPC) Homomorphic Encryption, Differential Privacy among others). 
+- Initially we will look at a few common financial crime scenarios where intelligence sharing is inhibiting appropriate actions.
+- Next the report will detail the technologies. It will describe what they are, how they work, pros and cons, current research on them. It will then discuss how they can assist with the scenarios. Finally it will outline further research areas
