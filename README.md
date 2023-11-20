@@ -11,7 +11,7 @@ Money laundering is one of the most severe financial crimes, exacting an annual 
 estimated at 10 − 15 billion dollars.
 
 
-# New-Discovery-Project Mission and Aim 
+# New Discovery Project Mission and Aim 
 To assist with preventing and understanding financial crime through utilising financial technology. WAs part of this project we will aim to explore prominent privacy technologies commonly researched and implemented in the field of financial intelligence. Some of these technologies include, but are not limited to, the following:
 
 - Secure multiparty computation (SMC or MPC): A protocol that allows multiple parties to work 
