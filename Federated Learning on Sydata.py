@@ -16,6 +16,7 @@ def client_model(input_shape):
     return model
 
 # Generate synthetic training data
+#can use freely
 num_clients = 10  # Number of simulated clients
 num_samples_per_client = 100  # Number of training samples per client
 input_shape = (784,)  # Shape of the input data (e.g., for MNIST images)
