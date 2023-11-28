@@ -1,4 +1,4 @@
-mporting Libraries:
+Importing Libraries:
 
 import pandas as pd: This line imports the pandas library, which is used for data manipulation and analysis. Pandas provides data structures like DataFrames for organizing and processing data.
 
