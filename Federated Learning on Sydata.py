@@ -1,4 +1,3 @@
-#Python code for Federated Learning (FL) using TensorFlow
 import tensorflow as tf
 import numpy as np
 
@@ -16,11 +15,11 @@ def client_model(input_shape):
     return model
 
 # Generate synthetic training data
-#can use freely
 num_clients = 10  # Number of simulated clients
 num_samples_per_client = 100  # Number of training samples per client
 input_shape = (784,)  # Shape of the input data (e.g., for MNIST images)
 
+# Initialize empty lists for training data and labels
 train_data = []
 train_labels = []
 
@@ -29,6 +28,7 @@ for i in range(num_clients):
     X = np.random.normal(loc=0, scale=1, size=(num_samples_per_client, input_shape[0]))
     y = np.random.randint(0, 10, size=num_samples_per_client)
 
+    # Append the generated data and labels to the respective lists
     train_data.append(X)
     train_labels.append(y)
 
@@ -65,3 +65,4 @@ loss, accuracy = global_model.evaluate(X_eval, y_eval)
 
 print("Global model evaluation loss:", loss)
 print("Global model evaluation accuracy:", accuracy)
+
