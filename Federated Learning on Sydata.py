@@ -1,3 +1,4 @@
+# Code for Federated Learning (FL) using TensorFlow
 import tensorflow as tf
 import numpy as np
 
