@@ -18,12 +18,14 @@ deposit_amounts = [random.randint(100, 1000) for _ in range(len(customer_names))
 
 Creating Synthetic Dataset:
 
-synthetic_data = pd.DataFrame({...}): This line creates a Pandas DataFrame named synthetic_data using the generated customer data. Each column in the DataFrame corresponds to a piece of customer information.
+synthetic_data = pd.DataFrame({...}): 
+This line creates a Pandas DataFrame named synthetic_data using the generated customer data. Each column in the DataFrame corresponds to a piece of customer information.
 Applying Differential Privacy (DP) to Deposit Amounts:
 
 def add_noise(data, sigma): This function adds Gaussian noise with a standard deviation of sigma to the provided data. The noise is intended to protect the privacy of individual deposit amounts.
 
-def compute_epsilon(sigma, delta): This function calculates the privacy parameter epsilon based on the standard deviation sigma and the privacy budget delta. Epsilon represents the privacy loss introduced by the noise addition.
+def compute_epsilon(sigma, delta): 
+This function calculates the privacy parameter epsilon based on the standard deviation sigma and the privacy budget delta. Epsilon represents the privacy loss introduced by the noise addition.
 
 sigma = 10: This line sets the standard deviation of the noise to 10.
 
@@ -31,10 +33,13 @@ delta = 0.01: This line sets the privacy budget to 0.01.
 
 synthetic_data["Deposit Amount"] = add_noise(synthetic_data["Deposit Amount"], sigma): This line applies the add_noise() function to the Deposit Amount column of the synthetic_data DataFrame.
 
-epsilon = compute_epsilon(sigma, delta): This line calculates the epsilon value based on the chosen noise parameters.
+epsilon = compute_epsilon(sigma, delta): 
+This line calculates the epsilon value based on the chosen noise parameters.
 
-print("Epsilon:", epsilon): This line prints the calculated epsilon value, indicating the level of privacy protection.
+print("Epsilon:", epsilon): 
+This line prints the calculated epsilon value, indicating the level of privacy protection.
 
 Printing Synthetic Data with DP-Applied Deposit Amounts:
 
-print(synthetic_data): This line prints the entire synthetic_data DataFrame, showing the customer information with the DP-applied deposit amounts.
+print(synthetic_data): 
+This line prints the entire synthetic_data DataFrame, showing the customer information with the DP-applied deposit amounts.
