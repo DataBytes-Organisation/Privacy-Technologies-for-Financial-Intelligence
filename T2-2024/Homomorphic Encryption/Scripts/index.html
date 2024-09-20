@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, label, button, select {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Fraud Detection System</h2>
+    <form id="fraudForm">
+        <label for="transactionAmount">Transaction Amount (AUD):</label>
+        <input type="number" id="transactionAmount" name="transactionAmount" required>
+
+        <label for="creditScore">Credit Score:</label>
+        <input type="number" id="creditScore" name="creditScore" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="transactionType">Transaction Type:</label>
+        <select id="transactionType" name="transactionType" required>
+            <option value="Online">Online</option>
+            <option value="In-Person">In-Person</option>
+        </select>
+
+        <label for="timeOfDay">Time of Day:</label>
+        <select id="timeOfDay" name="timeOfDay" required>
+            <option value="Morning">Morning</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+            <option value="Night">Night</option>
+        </select>
+
+        <button type="submit">Check for Fraud</button>
+    </form>
+
+    <div id="response"></div>
+</div>
+
+<script>
+    document.getElementById('fraudForm').addEventListener('submit', async function(event) {
+        event.preventDefault();  // Prevent form from refreshing the page
+        
+        const transactionAmount = document.getElementById('transactionAmount').value;
+        const creditScore = document.getElementById('creditScore').value;
+        const age = document.getElementById('age').value;
+        const transactionType = document.getElementById('transactionType').value;
+        const timeOfDay = document.getElementById('timeOfDay').value;
+
+        // Send the form data to the backend
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "Transaction_Amount_AUD": transactionAmount,
+                "Credit_Score": creditScore,
+                "Age": age,
+                "Transaction_Type": transactionType,
+                "Time_of_Day": timeOfDay
+            }),
+        });
+
+        const result = await response.json();
+
+        // Display the result on the webpage
+        document.getElementById('response').innerHTML = `
+            <h3>Prediction Results:</h3>
+            <p><strong>Prediction:</strong> ${result.prediction ? 'Fraudulent' : 'Non-Fraudulent'}</p>
+            <p><strong>Fraud Probability:</strong> ${result.fraud_probability.toFixed(2)}</p>
+        `;
+    });
+</script>
+
+</body>
+</html>
