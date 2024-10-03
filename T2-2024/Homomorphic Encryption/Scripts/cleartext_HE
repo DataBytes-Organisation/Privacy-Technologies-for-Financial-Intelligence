@@ -1,0 +1,118 @@
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+import pandas as pd
+import numpy as np
+from faker import Faker
+
+# Setup faker for data generation
+fake = Faker()
+
+# Generate RSA keys (Simulating Homomorphic Encryption key generation)
+def generate_keypair():
+    key = RSA.generate(2048)
+    private_key = key.export_key()
+    public_key = key.publickey().export_key()
+    return public_key, private_key
+
+# Encrypt function
+def encrypt(public_key, data):
+    cipher = PKCS1_OAEP.new(RSA.import_key(public_key))
+    encrypted_data = [cipher.encrypt(str(d).encode()) for d in data]
+    return encrypted_data
+
+# Decrypt function
+def decrypt(private_key, encrypted_data):
+    cipher = PKCS1_OAEP.new(RSA.import_key(private_key))
+    decrypted_data = [int(cipher.decrypt(d).decode()) for d in encrypted_data]
+    return decrypted_data
+
+# Clear text matching function
+def match_plain(tar, sus):
+    if tar == sus:
+        return f"Person ID {tar} has matched with suspect ID: {sus}"
+
+# Clear text matching for list
+def listmatch_plain(tar_list, sus_list):
+    matches = []
+    for tar in tar_list:
+        for sus in sus_list:
+            match_res = match_plain(tar, sus)
+            if match_res:
+                matches.append(match_res)
+    return matches
+
+# Homomorphic matching function (using encrypted data)
+def match_encrypted(tar_enc_list, sus_enc_list, private_key):
+    tar_list = decrypt(private_key, tar_enc_list)
+    sus_list = decrypt(private_key, sus_enc_list)
+    return listmatch_plain(tar_list, sus_list)
+
+# Function to create realistic customer data
+def create_person_data(num_people, shared_ids=[]):
+    data = []
+    for _ in range(num_people):
+        person_id = np.random.randint(1000000, 9999999)
+        if shared_ids:
+            person_id = shared_ids.pop(0)
+        person = {
+            "Name": fake.name(),
+            "DOB": fake.date_of_birth(minimum_age=16, maximum_age=120),
+            "ID": person_id,
+            "Address": fake.address(),
+            "Country": fake.country()
+        }
+        data.append(person)
+    return pd.DataFrame(data)
+
+# Function to create suspect data with some shared IDs
+def create_suspect_data(num_suspects, shared_ids):
+    data = []
+    num_shared = int(0.1 * num_suspects)
+    for i in range(num_suspects):
+        if i < num_shared:
+            person_id = shared_ids[i]
+        else:
+            person_id = np.random.randint(1000000, 9999999)
+        person = {
+            "Name": fake.name(),
+            "DOB": fake.date_of_birth(minimum_age=16, maximum_age=120),
+            "ID": person_id,
+            "Address": fake.address(),
+            "Country": fake.country()
+        }
+        data.append(person)
+    return pd.DataFrame(data)
+
+# Generate keys for encryption and decryption
+public_key, private_key = generate_keypair()
+
+# Generate sample data
+num_people = 100
+num_suspects = 10
+
+# Generate shared IDs to ensure 10% matches
+shared_ids = [np.random.randint(1000000, 9999999) for _ in range(int(0.1 * num_suspects))]
+
+# Create customer and suspect data with shared IDs
+customer_data = create_person_data(num_people, shared_ids.copy())
+suspect_data = create_suspect_data(num_suspects, shared_ids)
+
+# Convert data to lists for matching
+customer_ids = customer_data['ID'].to_list()
+suspect_ids = suspect_data['ID'].to_list()
+
+# Encrypt the customer and suspect IDs using homomorphic encryption
+customer_enc = encrypt(public_key, customer_ids)
+suspect_enc = encrypt(public_key, suspect_ids)
+
+# Perform clear text matching
+plain_matches = listmatch_plain(customer_ids, suspect_ids)
+print("Plain Text Matches:")
+for match in plain_matches:
+    print(match)
+
+# Perform encrypted matching using homomorphic encryption (simulated)
+enc_matches = match_encrypted(customer_enc, suspect_enc, private_key)
+print("\nHomomorphic Encryption Matches (after decryption):")
+for match in enc_matches:
+    print(match)
