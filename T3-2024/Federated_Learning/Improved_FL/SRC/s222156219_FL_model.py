@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 @Time ： 2024/11/18 15:47
-@Auth ： Chuang Liu
-@Email ：LIUC0316@126.COM
 @File ：model.py
 @IDE ：PyCharm
 """
