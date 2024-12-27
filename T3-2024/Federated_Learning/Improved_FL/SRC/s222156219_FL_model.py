@@ -20,6 +20,7 @@ class MyNet(nn.Module):
         self.fc4 = nn.Linear(24, 2)
         self.fc5 = nn.Linear(2, 1)
 
+
     def forward(self, data):
         x = self.fc1(data)
         x = self.relu(x)
